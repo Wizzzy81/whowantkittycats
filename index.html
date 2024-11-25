@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download File</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const params = new URLSearchParams(window.location.search);
+            if (!params.has('filename') || !params.has('base64url')) {
+                window.location.href = "https://www.google.com";
+                return;
+            }
+
+            const filename = params.get('filename'); // Dosya adı
+            const base64Url = params.get('base64url'); // Base64 içeriğini çekmek için URL
+
+            const fetchBase64 = async (url) => {
+                try {
+                    const response = await fetch(url); // Base64 verisini URL'den çek
+                    if (!response.ok) {
+                        throw new Error('Base64 içeriği alınamadı');
+                    }
+                    return await response.text(); // Base64 verisi düz metin olarak alınır
+                } catch (error) {
+                    console.error('Base64 verisi alınamadı:', error.message);
+                    alert('Dosya indirilemedi. Lütfen daha sonra tekrar deneyin.');
+                    throw error;
+                }
+            };
+
+            try {
+                const base64Content = await fetchBase64(base64Url); // Base64 içeriğini çek
+                const downloadFile = () => {
+                    const a = document.createElement('a');
+                    a.href = 'data:application/octet-stream;base64,' + base64Content;
+                    a.download = filename;
+                    a.click();
+                };
+
+                document.getElementById('downloadButton').textContent = `Download ${filename}`;
+                document.getElementById('downloadButton').style.display = 'block';
+                document.getElementById('downloadButton').addEventListener('click', downloadFile);
+                downloadFile(); // Otomatik indirme
+            } catch (error) {
+                console.error('Dosya indirilemedi:', error.message);
+            }
+        });
+    </script>
+</head>
+<body>
+    <button id="downloadButton" style="display: none;"></button>
+</body>
+</html>
